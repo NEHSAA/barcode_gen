@@ -3,4 +3,4 @@ barcode generator webapp
 
 ## Testing
 
-    dev_appserver.py app.yaml
+    make local_serve

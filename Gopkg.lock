@@ -2,6 +2,16 @@
 
 
 [[projects]]
+  name = "github.com/boombuler/barcode"
+  packages = [
+    ".",
+    "code128",
+    "utils"
+  ]
+  revision = "3cfea5ab600ae37946be2b763b8ec2c1cf2d272d"
+  version = "v1.0.0"
+
+[[projects]]
   name = "github.com/golang/protobuf"
   packages = ["proto"]
   revision = "b4deda0973fb4c70b50d226b1af49f3da59f5265"
@@ -21,9 +31,18 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/signintech/gopdf"
+  packages = [
+    ".",
+    "fontmaker/core"
+  ]
+  revision = "1b7ea99017dbed0067d9c1c063968c50bc968ad8"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/net"
   packages = ["context"]
-  revision = "afe8f62b1d6bbd81f31868121a50b06d8188e1f9"
+  revision = "97aa3a539ec716117a9d15a4659a911f50d13c3c"
 
 [[projects]]
   name = "google.golang.org/appengine"
@@ -35,7 +54,8 @@
     "internal/datastore",
     "internal/log",
     "internal/modules",
-    "internal/remote_api"
+    "internal/remote_api",
+    "log"
   ]
   revision = "b1f26356af11148e710935ed1ac8a7f5702c7612"
   version = "v1.1.0"
@@ -43,6 +63,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "42c4c0829a419049eeaa583c6a82f43e6ae738a31049a9f81fd8eaf85375cab0"
+  inputs-digest = "3bd38dadc21c080b6f8e61b1effdbb2476875e92a272067ba2fb7a3c3b883832"
   solver-name = "gps-cdcl"
   solver-version = 1
