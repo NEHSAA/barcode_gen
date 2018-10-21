@@ -2,11 +2,11 @@ package pdf
 
 import (
 	"bytes"
-	"context"
 	"fmt"
 	"image/jpeg"
+	"math"
 
-	"common/log"
+	"github.com/NEHSAA/barcode_gen/common/log"
 
 	"github.com/boombuler/barcode"
 	"github.com/boombuler/barcode/code128"
@@ -37,8 +37,8 @@ type IdBarcodeData struct {
 	BarcodeContent string
 }
 
-func GetIdBarcodePdf(ctx context.Context, data []IdBarcodeData) ([]byte, error) {
-	logger := log.GetLogger(ctx)
+func GetIdBarcodePdf(data []IdBarcodeData) ([]byte, error) {
+	logger := log.GetLogrusLogger("pdf_maker")
 	logger.Infof("generating pdf based on data: %v", data)
 
 	pdf := gopdf.GoPdf{}
@@ -50,24 +50,21 @@ func GetIdBarcodePdf(ctx context.Context, data []IdBarcodeData) ([]byte, error) 
 		return nil, fmt.Errorf("failed to add font: %v", err)
 	}
 
+	err = pdf.SetFont("main", "", int(math.Floor(4*mm)))
+	if err != nil {
+		return nil, err
+	}
+
 	for _, entry := range data {
 		logger.Infof("generating page for entry: %v", entry)
 		pdf.AddPage()
-
-		err = pdf.SetFont("main", "", 11)
-		if err != nil {
-			return nil, err
-		}
-		pdf.SetX(1.0 * mm)
-		pdf.SetY(2.5 * mm)
-		pdf.Cell(nil, entry.Text)
 
 		var b barcode.Barcode
 		b, err = code128.Encode(entry.BarcodeContent)
 		if err != nil {
 			return nil, fmt.Errorf("failed to generate barcode: %v", err)
 		}
-		barcodeW := (3.2-1.5)*inch - 3*mm
+		barcodeW := (3.2-1.25)*inch - 3*mm
 		barcodeH := 7 * mm
 		b, err = barcode.Scale(b, int(barcodeW), int(barcodeH))
 		if err != nil {
@@ -83,10 +80,14 @@ func GetIdBarcodePdf(ctx context.Context, data []IdBarcodeData) ([]byte, error) 
 		if err != nil {
 			return nil, fmt.Errorf("failed to create img holder: %v", err)
 		}
-		err = pdf.ImageByHolder(bimg, 1.5*inch, 1*mm, &gopdf.Rect{H: barcodeH, W: barcodeW})
+		err = pdf.ImageByHolder(bimg, 1.25*inch, 1*mm, &gopdf.Rect{H: barcodeH, W: barcodeW})
 		if err != nil {
 			return nil, fmt.Errorf("failed to place img holder: %v", err)
 		}
+
+		pdf.SetX(1.0 * mm)
+		pdf.SetY(2.5 * mm)
+		pdf.Cell(nil, entry.Text)
 	}
 
 	return pdf.GetBytesPdfReturnErr()
