@@ -4,5 +4,4 @@ steps:
   args: ['kms', 'decrypt', '--plaintext-file=secrets.yaml', '--location=global', '--keyring=appengine', '--key=default', '--ciphertext-file=secrets.yaml.enc']
 - id: deploy
   name: 'gcr.io/cloud-builders/gcloud'
-  dir: 'default'
-  args: ['app', 'deploy', '-v', '$SHORT_SHA', 'app.yaml']
+  args: ['app', 'deploy', '-v', '$BRANCH_NAME-$SHORT_SHA', 'app.yaml']
