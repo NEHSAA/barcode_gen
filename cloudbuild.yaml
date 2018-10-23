@@ -1,0 +1,8 @@
+steps:
+- id: decrypt-secret
+  name: 'gcr.io/cloud-builders/gcloud'
+  args: ['gcloud', 'kms', 'decrypt', '--plaintext-file=secrets.yaml', '--location=global', '--keyring=appengine', '--key=default', '--ciphertext-file=secrets.yaml.enc']
+- id: deploy
+  name: 'gcr.io/cloud-builders/gcloud'
+  dir: 'default'
+  args: ['app', 'deploy', '-v', '$SHORT_SHA', 'app.yaml']
