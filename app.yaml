@@ -1,20 +1,2 @@
 service: barcode-gen
-runtime: go
-api_version: go111
-
-handlers:
-- url: /.*
-  script: _go_app
-
-skip_files:
-- ^src/.*
-- vendor/golang.org/x/sys/unix
-- vendor/google.golang.org/appengine
-- vendor/google.golang.org/api
-- vendor/golang.org/x/oauth2
-- vendor/golang.org/x/oauth2/google
-- vendor/golang.org/x/oauth2/jwt
-
-env_variables:
-  OAUTH_CLIENT_ID: "981397958260-00h8bgke2po7f7emavesmr134asnqpk3.apps.googleusercontent.com"
-  OAUTH_CLIENT_SECRET: "-RCr-lhrCekEV-ufHcIHwsBz"
+runtime: go111

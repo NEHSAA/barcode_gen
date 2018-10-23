@@ -5,9 +5,9 @@ import (
 	"encoding/gob"
 	"fmt"
 	"net/http"
-	"os"
 	"time"
 
+	"github.com/NEHSAA/barcode_gen/common/config"
 	"github.com/gorilla/mux"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -20,8 +20,8 @@ var (
 
 func getAuthCconfig(r *http.Request) *oauth2.Config {
 	return &oauth2.Config{
-		ClientID:     os.Getenv("OAUTH_CLIENT_ID"),
-		ClientSecret: os.Getenv("OAUTH_CLIENT_SECRET"),
+		ClientID:     config.Config.Secrets.Oauth.ClientID,
+		ClientSecret: config.Config.Secrets.Oauth.ClientSecret,
 		RedirectURL:  getFullUrl(r, "/auth/callback"),
 		Scopes: []string{
 			"https://www.googleapis.com/auth/spreadsheets",

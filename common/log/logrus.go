@@ -48,3 +48,7 @@ func (l *logrusLogger) Warningf(format string, args ...interface{}) {
 func (l *logrusLogger) Errorf(format string, args ...interface{}) {
 	l.log.Errorf(format, args...)
 }
+
+func (l *logrusLogger) Fatalf(format string, args ...interface{}) {
+	l.log.Fatalf(format, args...)
+}

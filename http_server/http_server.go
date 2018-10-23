@@ -11,7 +11,6 @@ import (
 
 	"github.com/NEHSAA/barcode_gen/common/log"
 	"github.com/NEHSAA/barcode_gen/pdf"
-
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 )

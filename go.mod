@@ -20,4 +20,5 @@ require (
 	golang.org/x/sys v0.0.0-20180802203216-0ffbfd41fbef
 	google.golang.org/api v0.0.0-20180730000901-31ca0e01cd79
 	google.golang.org/appengine v1.1.0
+	gopkg.in/yaml.v2 v2.2.1
 )

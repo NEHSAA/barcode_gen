@@ -1,10 +1,12 @@
 package app
 
 import (
-	"log"
+	"fmt"
 	"net/http"
+	"os"
 	"time"
 
+	"github.com/NEHSAA/barcode_gen/common/config"
 	logging "github.com/NEHSAA/barcode_gen/common/log"
 	"github.com/NEHSAA/barcode_gen/http_server"
 )
@@ -19,11 +21,23 @@ func NewApp() *App {
 	}
 }
 
-func (a *App) Run() {
+func (a *App) Run() error {
 	logging.InitLogrus()
+	logger := logging.GetLogrusLogger("app")
+
+	err := config.InitConfig()
+	if err != nil {
+		logger.Fatalf("error loading config: %v", err)
+	}
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+		logger.Infof("Defaulting to port %s", port)
+	}
 
 	srv := &http.Server{
-		Addr: "0.0.0.0:8080",
+		Addr: fmt.Sprintf(":%s", port),
 		// Good practice to set timeouts to avoid Slowloris attacks.
 		WriteTimeout: time.Second * 15,
 		ReadTimeout:  time.Second * 15,
@@ -31,7 +45,5 @@ func (a *App) Run() {
 		Handler:      a.server.Router, // Pass our instance of gorilla/mux in.
 	}
 
-	if err := srv.ListenAndServe(); err != nil {
-		log.Println(err)
-	}
+	return srv.ListenAndServe()
 }
